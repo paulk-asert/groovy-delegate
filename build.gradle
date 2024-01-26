@@ -1,6 +1,7 @@
 plugins {
-    id 'com.github.ben-manes.versions' version '0.50.0'
+    id 'com.github.ben-manes.versions' version '0.51.0'
     id 'groovy'
+    id 'application'
 }
 
 repositories {
@@ -11,4 +12,23 @@ dependencies {
     implementation 'org.apache.groovy:groovy:5.0.0-alpha-5'
     implementation 'org.apache.groovy:groovy-datetime:5.0.0-alpha-5'
     implementation 'org.apache.groovy:groovy-test:5.0.0-alpha-5'
+}
+
+def runall = tasks.register('runAll') {
+    group 'Application'
+}
+
+sourceSets.main.allSource.files.each { file ->
+    if (file.name == 'MenuItem.groovy') return
+    def name = "${file.parentFile.name}.${file.name - '.groovy'}"
+    def subtask = tasks.register("run_$name", JavaExec) {
+        dependsOn compileGroovy
+        group 'Application'
+        description "Run $file.name as a JVM application/Groovy script"
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = name
+    }
+    runall.configure {
+        dependsOn subtask
+    }
 }
