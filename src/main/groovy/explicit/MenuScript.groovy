@@ -6,20 +6,14 @@ class Menu {
     private ArrayList<MenuItem> delegate = []
 
     MenuItem findByPrice(int price) {
-        delegate.find{ it.price == price }
+        delegate.find { it.price == price }
     }
 
-    boolean add(MenuItem newItem) {
-        delegate.add(newItem)
-    }
+    boolean add(MenuItem newItem) { delegate.add(newItem) }
 
-    MenuItem getAt(int index) {
-        delegate[index]
-    }
+    MenuItem getAt(int index) { delegate[index] }
 
-    int size() {
-        delegate.size()
-    }
+    int size() { delegate.size() }
 }
 
 def vietnamese = new Menu().tap {

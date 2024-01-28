@@ -8,6 +8,7 @@ import java.time.LocalDate
 trait HasList {
     List<MenuItem> listDelegate = []
     boolean add(MenuItem item) { listDelegate.add(item) }
+    MenuItem getAt(int index) { listDelegate[index] }
     boolean any(Closure predicate) { listDelegate.any(predicate) }
     boolean contains(MenuItem item) { listDelegate.contains(item) }
 }
@@ -34,5 +35,6 @@ def italianThursday = new Menu(LocalDate.of(2024, 1, 25)).tap {
     add(new MenuItem('Pannacotta', 10))
 }
 
+assert italianWednesday[0].price == 10
 assert !italianWednesday.any{ italianThursday.contains(it) }
 assert italianWednesday.isBefore(italianThursday.dateDelegate)
